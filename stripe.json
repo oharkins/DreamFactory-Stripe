@@ -1,0 +1,849 @@
+{
+    "resourcePath": "/stripe",
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "apis": [
+        {
+            "path": "/stripe/charges",
+            "operations": [
+                {
+                    "nickname": "createCharge",
+                    "method": "POST",
+                    "parameters": [
+                        {
+                            "name": "currency",
+                            "type": "string",
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "name": "amount",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "name": "source",
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "customer",
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "listAllCharges",
+                    "method": "GET",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "path": "/stripe/tokens",
+            "operations": [
+                {
+                    "nickname": "createCardToken",
+                    "method": "POST",
+                    "parameters": [
+                        {
+                            "name": "source",
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "card",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "customer",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/refunds",
+            "operations": [
+                {
+                    "nickname": "listRefunds",
+                    "method": "GET",
+                    "parameters": [
+                        {
+                            "name": "charge",
+                            "description": "Only return refunds for the charge specified by this charge ID.",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "ending_before",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "limit",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "starting_after",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/refunds/{REFUND_ID}",
+            "operations": [
+                {
+                    "nickname": "retrieveRefund",
+                    "method": "GET",
+                    "parameters": [
+                        {
+                            "name": "REFUND_ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/charges/{CHARGE_ID}/refunds",
+            "operations": [
+                {
+                    "nickname": "createRefund",
+                    "method": "POST",
+                    "parameters": [
+                        {
+                            "name": "CHARGE_ID",
+                            "type": "string",
+                            "paramType": "path",
+                            "required": true,
+                            "description": "The identifier of the charge to refund."
+                        },
+                        {
+                            "name": "amount",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "reason",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "refund_application_fee",
+                            "type": "boolean",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "reverse_transfer",
+                            "type": "boolean",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/events",
+            "operations": [
+                {
+                    "nickname": "listAllEvents",
+                    "method": "GET",
+                    "summary": "List events, going back up to 30 days.",
+                    "parameters": [
+                        {
+                            "name": "created",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "ending_before",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "limit",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "starting_after",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "type",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/events/{EVENT_ID}",
+            "operations": [
+                {
+                    "nickname": "retrieveEvent",
+                    "method": "GET",
+                    "summary": "Retrieves the details of an event.",
+                    "parameters": [
+                        {
+                            "name": "EVENT_ID",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/disputes",
+            "operations": [
+                {
+                    "nickname": "retrieveDisputes",
+                    "method": "GET",
+                    "summary": "Returns a list of your disputes.",
+                    "parameters": [
+                        {
+                            "name": "created",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "ending_before",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "limit",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "starting_after",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/disputes/{DISPUTE_ID}/close",
+            "operations": [
+                {
+                    "nickname": "closeDispute",
+                    "method": "POST",
+                    "summary": "Closing the dispute for a charge indicates that you do not have any evidence to submit.",
+                    "parameters": [
+                        {
+                            "name": "DISPUTE_ID",
+                            "type": "string",
+                            "paramType": "path",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/disputes/{DISPUTE_ID}",
+            "operations": [
+                {
+                    "nickname": "updateDispute",
+                    "method": "POST",
+                    "parameters": [
+                        {
+                            "name": "DISPUTE_ID",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "evidence",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "retrieveDispute",
+                    "method": "GET",
+                    "summary": "Retrieves the dispute with the given ID.",
+                    "parameters": [
+                        {
+                            "name": "DISPUTE_ID",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/balance/history/{TRANSACTION_ID}",
+            "operations": [
+                {
+                    "nickname": "retrieveBalance",
+                    "method": "GET",
+                    "parameters": [
+                        {
+                            "name": "TRANSACTION_ID",
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "summary": "Retrieves the balance transaction with the given ID."
+                }
+            ]
+        },
+        {
+            "path": "/stripe/balance/history",
+            "operations": [
+                {
+                    "nickname": "listAllBalanceHistory",
+                    "method": "GET",
+                    "parameters": [
+                        {
+                            "name": "available_on",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "created",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "currency",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "ending_before",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "limit",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "starting_after",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "transfer",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "source",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "type",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ],
+                    "summary": "Returns a list of transactions that have contributed to the Stripe account balance."
+                }
+            ],
+            "description": ""
+        },
+        {
+            "path": "/stripe/balance",
+            "operations": [
+                {
+                    "nickname": "retrieveBalance",
+                    "method": "GET",
+                    "summary": "Retrieves the current account balance, based on the authentication that was used to make the request."
+                }
+            ]
+        },
+        {
+            "path": "/stripe/customers/{CUSTOMER_ID}",
+            "operations": [
+                {
+                    "nickname": "retrieveCustomer",
+                    "method": "GET",
+                    "summary": "Retrieves the details of an existing customer.",
+                    "parameters": [
+                        {
+                            "name": "CUSTOMER_ID",
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "updateCustomer",
+                    "method": "POST",
+                    "summary": "Updates the specified customer by setting the values of the parameters passed.",
+                    "parameters": [
+                        {
+                            "name": "CUSTOMER_ID",
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "account_balance",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "coupon",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "default_source",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "description",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "email",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "shipping",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "source",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "deleteCustomer",
+                    "method": "DELETE",
+                    "summary": "Permanently deletes a customer. It cannot be undone.",
+                    "parameters": [
+                        {
+                            "name": "CUSTOMER_ID",
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/charges/{CHARGE_ID}/capture",
+            "description": "",
+            "operations": [
+                {
+                    "nickname": "captureCharge",
+                    "method": "POST",
+                    "summary": "Capture the payment of an existing, uncaptured, charge.",
+                    "parameters": [
+                        {
+                            "name": "statement_descriptor",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "receipt_email",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "amount",
+                            "description": "The amount to capture, which must be less than or equal to the original amount.",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "CHARGE_ID",
+                            "type": "string",
+                            "paramType": "path",
+                            "required": true,
+                            "description": "e.g. ch_17RB2VGgsatq5Hxy9cECC5PO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/charges/{CHARGE_ID}",
+            "description": "",
+            "operations": [
+                {
+                    "nickname": "retrieveCharge",
+                    "method": "GET",
+                    "summary": "Retrieves the details of a charge that has previously been created.",
+                    "parameters": [
+                        {
+                            "name": "CHARGE_ID",
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "updateCharge",
+                    "method": "POST",
+                    "summary": "Updates the specified charge by setting the values of the parameters passed.",
+                    "parameters": [
+                        {
+                            "name": "CHARGE_ID",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "path",
+                            "required": true
+                        },
+                        {
+                            "name": "shipping",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "description",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "fraud_details",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "receipt_email",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/stripe/customers",
+            "description": "",
+            "operations": [
+                {
+                    "nickname": "retrieveAllCustomers",
+                    "method": "GET",
+                    "summary": "Returns a list of your customers.",
+                    "parameters": [
+                        {
+                            "name": "ending_before",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "limit",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "starting_after",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "created",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ]
+                },
+                {
+                    "nickname": "createCustomer",
+                    "method": "POST",
+                    "parameters": [
+                        {
+                            "name": "account_balance",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "coupon",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "email",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "plan",
+                            "type": "string",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "quantity",
+                            "type": "integer",
+                            "format": "int32",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "shipping",
+                            "allowMultiple": false,
+                            "paramType": "body",
+                            "type": "shipping"
+                        },
+                        {
+                            "name": "tax_percent",
+                            "type": "number",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "trial_end",
+                            "type": "string",
+                            "format": "date-time",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "source",
+                            "type": "source",
+                            "paramType": "body"
+                        },
+                        {
+                            "name": "description",
+                            "type": "string",
+                            "paramType": "body"
+                        }
+                    ],
+                    "summary": "Creates a new customer object."
+                }
+            ]
+        }
+    ],
+    "models": {
+        "address": {
+            "id": "address",
+            "subTypes": [],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "description": "Address line 2 (Apartment/Suite/Unit/Building)"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "2-letter country code"
+                },
+                "line1": {
+                    "type": "string",
+                    "description": "Address line 1 (Street address/PO Box/Company name)"
+                },
+                "line2": {
+                    "type": "string",
+                    "description": "Address line 2 (Apartment/Suite/Unit/Building)"
+                },
+                "postal_code": {
+                    "type": "string",
+                    "description": "Zip/Postal Code"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State/Province/County"
+                }
+            }
+        },
+        "shipping": {
+            "id": "shipping",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Customer name."
+                },
+                "phone": {
+                    "type": "string",
+                    "description": "Customer phone (including extension)."
+                },
+                "address": {
+                    "type": "address"
+                }
+            },
+            "discriminator": "name",
+            "subTypes": []
+        },
+        "source": {
+            "id": "source",
+            "properties": {
+                "object": {
+                    "type": "string",
+                    "description": "The type of payment source. Should be ‘card’."
+                },
+                "exp_month": {
+                    "type": "integer",
+                    "description": "Two digit number representing the card’s expiration month.",
+                    "format": "int32"
+                },
+                "exp_year": {
+                    "type": "integer",
+                    "description": "Two or four digit number representing the card’s expiration year.",
+                    "format": "int32"
+                },
+                "number": {
+                    "type": "string",
+                    "description": "The card number, as a string without any separators."
+                },
+                "address_city": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_line1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_line2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_zip": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "cvc": {
+                    "type": "string",
+                    "description": ""
+                },
+                "default_for_currency": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Cardholder’s full name."
+                }
+            },
+            "subTypes": []
+        },
+        "card": {
+            "id": "card",
+            "subTypes": [],
+            "properties": {
+                "exp_month": {
+                    "type": "integer",
+                    "description": "Two digit number representing the card’s expiration month.",
+                    "format": "int32"
+                },
+                "exp_year": {
+                    "type": "integer",
+                    "description": "Two digit number representing the card’s expiration year.",
+                    "format": "int32"
+                },
+                "address_city": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_line1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_line2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_state": {
+                    "type": "string",
+                    "description": ""
+                },
+                "address_zip": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "cvc": {
+                    "type": "string",
+                    "description": ""
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "number": {
+                    "type": "string",
+                    "description": "Card number as string with no seperators."
+                }
+            }
+        }
+    },
+    "authorizations": {}
+}
